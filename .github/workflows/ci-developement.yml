@@ -4,7 +4,7 @@ name: Build and deploy to qpon development server
 on:
   workflow_dispatch:
   push:
-    branches: [ development ]  
+    branches: [ main ]  
 
 jobs:
   build:
@@ -21,45 +21,13 @@ jobs:
       #run: mvn -B clean install --file pom.xml
       run: mvn clean install -DskipTests 
 
-    - name: Copy Artifact via scp to aws server
-      uses: appleboy/scp-action@master
-      env:
-        HOST: ${{ secrets.DEV_SERVER }}
-        USERNAME: ${{ secrets.USERNAME }}
-        PORT: ${{ secrets.PORT }}
-        KEY: ${{ secrets.KEY }}
-      with:
-        source: "./target/qpon-file-manager-service-0.0.1-SNAPSHOT.jar"
-        target: "/home/ubuntu/tmp"
-
-    - name: Executing remote command to run the service
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.DEV_SERVER }}
-        USERNAME: ${{ secrets.USERNAME }}
-        PORT: ${{ secrets.PORT }}
-        KEY: ${{ secrets.KEY }}
-        envs:
-          DBPass:${{ secrets.DBPASSDEV }}
-        #script_stop: true
-        script: |
-         lsof -i :8083
-         kill $(lsof -t -i:8083)
-         cd /home/ubuntu/tmp
-         nohup java -jar  qpon-file-manager-service-0.0.1-SNAPSHOT.jar > qpon-file-manager-service.log &
-         netstat -lnput
-
-  notify:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v2
-      - uses: iRoachie/slack-github-actions@v2.3.0
-        with:
-          status: ${{ job.status }}
+      - name: Copy Artifact via scp to aws server
+        uses: appleboy/scp-action@master
         env:
-          #SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
+          HOST: 13.127.150.136
+          USERNAME: qponprod
+          PORT: 22
+          PASSWORD: QPonpD4
+        with:
+          source: "./target/qpon-file-manager-service-0.0.1-SNAPSHOT.jar"
+          target: "/home/qponprod/file/"
