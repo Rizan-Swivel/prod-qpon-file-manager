@@ -1,0 +1,68 @@
+spring:
+  zipkin:
+    base-url: http://54.254.30.227:9411
+    enabled: false
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/qpon_filemanager?createDatabaseIfNotExist=true}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:Swivel@#$123}
+    initialization-mode:
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        show_sql: true
+        formant_sql: true
+  application:
+    name: qpon-file-manager-service
+    api-key: tiu-c2cc3496-c9f8-5432-a83c-82841b4412ohe
+
+  ## This should be added to API gateway level
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+server:
+  servlet:
+    contextPath: /qpon-file-manager-service
+  port: ${PORT:8083}
+
+## Eureka
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: ${EUREKA_ZONE:http://localhost:8761/eureka}
+
+## Auth-service
+security:
+  oauth2:
+    resource:
+      token-info-uri: ${TOKEN_INFO_URI:http://dev.api.qpon.lk:8080/qpon-auth-service/oauth/check_token}
+      id: tokomobile
+    client:
+      client-id: ${CLIENT_ID:tokomobile}
+      client-secret: ${CLIENT_SECRET:1aead6ce-7199-4088-a64e-818244c5beff}
+
+## AWS
+aws:
+  bucket:
+    name: ${AWS_BUCKET_NAME:objects-qpon-dev}
+  region: ${AWS_REGION:ap-southeast-1}
+
+## App values
+image:
+  maxByteSize: 10000000
+
+file:
+  maxByteSize: 10000000
+  types: text/csv,application/pdf,audio/mpeg,video/mp4,image/jpeg,image/png,text/html
+  count: 10
+
+ribbon:
+  ReadTimeout: ${RIBBON_TIMEOUT:6000}

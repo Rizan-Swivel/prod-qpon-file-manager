@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: qpon-file-manager-service
+
+logging:
+  level:
+    com.swivel.cc.fileuploader: DEBUG
+  file:
+    path: ${LOGPATH:/home/ubuntu/tmp/logs}
