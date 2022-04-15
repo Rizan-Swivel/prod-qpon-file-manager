@@ -21,13 +21,16 @@ jobs:
       #run: mvn -B clean install --file pom.xml
       run: mvn clean install -DskipTests 
 
-      - name: Copy Artifact via scp to aws server
-        uses: appleboy/scp-action@master
-        env:
-          HOST: 13.127.150.136
-          USERNAME: qponprod
-          PORT: 22
-          PASSWORD: QPonpD4
-        with:
-          source: "./target/qpon-file-manager-service-0.0.1-SNAPSHOT.jar"
-          target: "/home/qponprod/file/"
+    - name: Copy Artifact via scp to aws server
+      uses: appleboy/scp-action@master
+      env:
+        HOST: 13.127.150.136
+        USERNAME: qponprod
+        PORT: 22
+        PASSWORD: QPonpD4
+      with:
+        source: "./target/qpon-file-manager-service-0.0.1-SNAPSHOT.jar"
+        target: "/home/qponprod/file/"
+
+
+
