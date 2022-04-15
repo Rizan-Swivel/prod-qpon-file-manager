@@ -3,9 +3,9 @@ spring:
     base-url: http://54.254.30.227:9411
     enabled: false
   datasource:
-    url: ${DB_URL:jdbc:mysql://localhost:3306/qpon_filemanager?createDatabaseIfNotExist=true}
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:Swivel@#$123}
+    url: ${DB_URL:jdbc:mysql://mqsqldb.qpon.lk:3306/qpon_filemanager?createDatabaseIfNotExist=true}
+    username: ${DB_USERNAME:qponadmin}
+    password: ${DB_PASSWORD:QPonpD42cR8823}
     initialization-mode:
   jpa:
     hibernate:
@@ -37,13 +37,13 @@ eureka:
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: ${EUREKA_ZONE:http://localhost:8761/eureka}
+      defaultZone: ${EUREKA_ZONE:https://api.qpon.lk/eureka}
 
 ## Auth-service
 security:
   oauth2:
     resource:
-      token-info-uri: ${TOKEN_INFO_URI:http://dev.api.qpon.lk:8080/qpon-auth-service/oauth/check_token}
+      token-info-uri: ${TOKEN_INFO_URI:https://api.qpon.lk/qpon-auth-service/oauth/check_token}
       id: tokomobile
     client:
       client-id: ${CLIENT_ID:tokomobile}
