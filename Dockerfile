@@ -9,4 +9,3 @@ ENV AWS_BUCKET_NAME objects-qpon-prod1
 WORKDIR /home
 EXPOSE 8083
 CMD ["java", "-jar", "qpon-file-manager-service-0.0.1-SNAPSHOT.jar"]
-~                                                                     
